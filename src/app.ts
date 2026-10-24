@@ -5,6 +5,8 @@ import type{ Request, Response } from "express"
 import { envVariables } from "./app/config/env"
 import { notFound } from "./app/middleware/notFound"
 import { IndexRoutes } from "./app/routes"
+import { auth } from "./app/lib/auth"
+import { toNodeHandler } from "better-auth/node"
 
 const app=express()
 
@@ -18,7 +20,8 @@ app.use(cors({
     methods:["GET","POST","DELETE","PUT","PATCH","UPDATE"],
     allowedHeaders:["Content-Type","Authorization"]
 }))
-
+console.log("api called")
+app.use("/api/auth",toNodeHandler(auth)) // Use the Better Auth middleware for authentication routes
 
 app.use("/api/v1/",IndexRoutes) // Use the index routes for API version 1
 
