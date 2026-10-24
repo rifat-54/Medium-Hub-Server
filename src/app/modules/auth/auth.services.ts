@@ -18,7 +18,30 @@ const registerUser = async (payload: IRegisterUserPayload) => {
     throw new Error("User registration failed");
   }
 
-  return data;
+  const access_token = tokenUtils.createAccessToken({
+    userId: data.user.id,
+    role: data.user.role,
+    name: data.user.name,
+    email: data.user.email,
+    image: data.user.image,
+    emailVerified: data.user.emailVerified,
+  })
+
+  const refresh_token = tokenUtils.createRefreshToken({
+    userId: data.user.id,
+    role: data.user.role,
+    name: data.user.name,
+    email: data.user.email,
+    image: data.user.image,
+    emailVerified: data.user.emailVerified,
+  })
+
+  return {
+    ...data,
+    access_token,
+    refresh_token,
+    token: data.token
+  }
 };
 
 const loginUser = async (payload: ILoginUserPayload) => {
