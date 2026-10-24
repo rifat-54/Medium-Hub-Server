@@ -13,6 +13,7 @@ const createAccessToken = (payload: JWTPayload): string => {
 }
 
 const createRefreshToken = (payload: JWTPayload): string => {
+    // console.log("expire in", envVariables.REFRESH_TOKEN_EXPIRE_IN)
     const refreshToken = jwtUtils.createToken(payload, envVariables.REFRESH_TOKEN_SECRET, {
         expiresIn: envVariables.REFRESH_TOKEN_EXPIRE_IN
     } as SignOptions
