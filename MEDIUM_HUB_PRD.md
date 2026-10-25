@@ -137,7 +137,60 @@ medium-hub-client/
 
 Backend Structure
 
+## 4. Backend Structure
 
+```text
+medium-hub-server/
+│
+├── prisma/
+│   ├── schema.prisma
+│   ├── migrations/
+│   └── seed.ts
+│
+├── src/
+│   ├── config/
+│   │   └── env.ts
+│   │
+│   ├── lib/
+│   │   ├── prisma.ts
+│   │   └── auth.ts
+│   │
+│   ├── middlewares/
+│   │   ├── check-auth.ts
+│   │   ├── require-role.ts
+│   │   ├── validate-request.ts
+│   │   ├── not-found.ts
+│   │   └── global-error-handler.ts
+│   │
+│   ├── error-helpers/
+│   │   └── app-error.ts
+│   │
+│   ├── utils/
+│   │   ├── send-response.ts
+│   │   └── catch-async.ts
+│   │
+│   ├── modules/
+│   │   ├── auth/
+│   │   ├── users/
+│   │   ├── blogs/
+│   │   ├── categories/
+│   │   ├── comments/
+│   │   ├── likes/
+│   │   └── bookmarks/
+│   │
+│   ├── routes/
+│   │   └── index.ts
+│   │
+│   ├── app.ts
+│   └── server.ts
+│
+├── .env.example
+├── .gitignore
+├── package.json
+└── tsconfig.json
+```
+
+**Module structure:** Each backend module can contain route, controller, service, and validation files as needed.
 
 📘 API Endpoints
 
