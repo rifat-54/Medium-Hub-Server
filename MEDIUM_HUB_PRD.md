@@ -1,188 +1,143 @@
-Medium Hub - Product Requirements Document (PRD)
+# Medium Hub - Product Requirements Document (PRD)
 
-Project Overview
+## Project Overview
 
-Item                 Details
+| Item               | Details                                      |
+| ------------------ | -------------------------------------------- |
+| **Project Name**   | Medium Hub                                   |
+| **Type**           | Medium-inspired blogging platform            |
+| **Frontend**       | Next.js App Router, TypeScript, Tailwind CSS |
+| **Backend**        | Node.js, Express.js, TypeScript              |
+| **Database**       | PostgreSQL with Prisma ORM                   |
+| **Authentication** | Better Auth or JWT (choose one approach)     |
+| **Validation**     | Zod                                          |
+| **Deployment**     | Vercel (frontend), Render/Railway (backend)  |
 
-Project Name     Medium Hub
-Type             Medium-inspired blogging platform
-Frontend         Next.js App Router, TypeScript, Tailwind CSS
-Backend          Node.js, Express.js, TypeScript
-Database         PostgreSQL with Prisma ORM
-Authentication   Better Auth or JWT (choose one approach)
-Validation       Zod
-Deployment       Vercel (frontend), Render/Railway (backend)
+Medium Hub is a blogging platform where readers can discover and read blogs, registered users can write and manage their own blogs, and admins can manage users, categories, blogs, and comments.
 
-Medium Hub lets readers discover and read blogs, while registered users
-can write, publish, edit, and manage their own blogs. Admins manage
-users, categories, blogs, and comments.
+## 1. Core Features
 
-1. Core Features
+### User Features
 
-User Features
+* Register and log in securely.
+* Browse, search, filter, sort, and paginate published blogs.
+* Read blogs and view author profiles.
+* Create, edit, publish, unpublish, and delete their own blogs.
+* Save blogs as drafts.
+* Like and bookmark blogs.
+* Comment on blogs and optionally reply to comments.
+* Manage profile information and avatar.
+* View their blogs and bookmarks in a dashboard.
 
-Register and log in securely.
+### Admin Features
 
-Browse, search, filter, sort, and paginate published blogs.
+* View platform statistics.
+* View and manage users.
+* Change user roles and suspend accounts.
+* Create, update, and delete categories.
+* Manage, feature, publish, unpublish, or remove blogs.
+* Moderate comments.
 
-Read a blog and view its author profile.
+### Public Homepage
 
-Create, edit, publish, unpublish, and delete own blogs.
+* Navbar and footer.
+* Hero section.
+* Featured blogs.
+* Latest and popular blogs.
+* Popular categories and topics.
+* Call-to-action or newsletter section.
 
-Save blogs as drafts.
+## 2. Roles and Access
 
-Like and bookmark blogs.
+| Role    | Permissions                                                                                                   |
+| ------- | ------------------------------------------------------------------------------------------------------------- |
+| `GUEST` | Browse published blogs, search blogs, and view public profiles.                                               |
+| `USER`  | Guest permissions, plus create and manage their own blogs, like, bookmark, comment, and manage their profile. |
+| `ADMIN` | Manage users, roles, categories, all blogs, and comments.                                                     |
 
-Comment on blogs and optionally reply to comments.
+**Implementation Note:** `GUEST` is not stored in the database. It represents an unauthenticated visitor. The database roles are `USER` and `ADMIN`.
 
-Manage profile information and avatar.
+All permissions must be enforced by the backend, not just by frontend route guards.
 
-View own blogs and bookmarks in a dashboard.
 
-Admin Features
-
-View platform statistics.
-
-View and manage users.
-
-Change user roles or suspend accounts.
-
-Manage categories.
-
-View, publish/unpublish, feature, or remove blogs.
-
-Moderate comments.
-
-Public Homepage
-
-Navbar and footer.
-
-Hero section.
-
-Featured blogs.
-
-Latest/popular blogs.
-
-Popular categories/topics.
-
-Call-to-action or newsletter section.
-
-2. Roles and Access
-
-Role                                Permissions
-
-GUEST                             Browse published blogs, search,
-view public profiles
-
-USER                              Guest permissions plus
-create/manage own blogs, like,
-bookmark, comment, manage profile
-
-Implementation note: GUEST is not stored as a user role; it
-represents an unauthenticated visitor. Database roles are USER and
-ADMIN. Every permission must be enforced by the backend, not just by
-frontend route guards.
 
 3. Frontend Structure
 
+## 3. Frontend Structure
+
+```text
 medium-hub-client/
 ├── public/
 │   ├── images/
 │   └── logo.svg
+│
 ├── src/
 │   ├── app/
 │   │   ├── (public)/
-│   │   │   ├── page.tsx                       # Home
-│   │   │   ├── blogs/page.tsx                 # Blog listing/search
-│   │   │   ├── blogs/[slug]/page.tsx           # Blog details
-│   │   │   ├── categories/page.tsx
-│   │   │   ├── categories/[slug]/page.tsx
+│   │   │   ├── page.tsx
+│   │   │   ├── blogs/
+│   │   │   │   ├── page.tsx
+│   │   │   │   └── [slug]/page.tsx
+│   │   │   ├── categories/
+│   │   │   │   ├── page.tsx
+│   │   │   │   └── [slug]/page.tsx
 │   │   │   ├── authors/[username]/page.tsx
 │   │   │   ├── about/page.tsx
 │   │   │   └── contact/page.tsx
+│   │   │
 │   │   ├── (auth)/
 │   │   │   ├── login/page.tsx
 │   │   │   └── register/page.tsx
-│   │   ├── (dashboard)/
-│   │   │   └── dashboard/
-│   │   │       ├── page.tsx                   # Overview
-│   │   │       ├── blogs/page.tsx              # My blogs
-│   │   │       ├── blogs/new/page.tsx          # Create blog
-│   │   │       ├── blogs/[id]/edit/page.tsx    # Edit blog
-│   │   │       ├── bookmarks/page.tsx
-│   │   │       ├── profile/page.tsx
-│   │   │       └── settings/page.tsx
+│   │   │
+│   │   ├── dashboard/
+│   │   │   ├── page.tsx
+│   │   │   ├── blogs/
+│   │   │   │   ├── page.tsx
+│   │   │   │   ├── new/page.tsx
+│   │   │   │   └── [id]/edit/page.tsx
+│   │   │   ├── bookmarks/page.tsx
+│   │   │   ├── profile/page.tsx
+│   │   │   └── settings/page.tsx
+│   │   │
 │   │   ├── admin/
-│   │   │   ├── page.tsx                       # Admin overview
+│   │   │   ├── page.tsx
 │   │   │   ├── users/page.tsx
 │   │   │   ├── blogs/page.tsx
 │   │   │   ├── categories/page.tsx
 │   │   │   └── comments/page.tsx
+│   │   │
 │   │   ├── layout.tsx
 │   │   ├── globals.css
 │   │   ├── loading.tsx
 │   │   ├── error.tsx
 │   │   └── not-found.tsx
+│   │
 │   ├── components/
-│   │   ├── layout/                             # Navbar, footer, sidebar
-│   │   ├── home/                               # Hero, featured blogs, topics
-│   │   ├── blogs/                              # Blog cards, editor, filters
-│   │   ├── comments/                           # Comment form/list
-│   │   ├── profile/                            # Author/profile components
-│   │   ├── admin/                              # Admin tables and stats
-│   │   ├── shared/                             # Pagination, states, dialogs
-│   │   └── ui/                                 # shadcn/ui components
-│   ├── services/                               # API calls
+│   │   ├── layout/
+│   │   ├── home/
+│   │   ├── blogs/
+│   │   ├── comments/
+│   │   ├── profile/
+│   │   ├── admin/
+│   │   ├── shared/
+│   │   └── ui/
+│   │
+│   ├── services/
 │   ├── hooks/
-│   ├── lib/                                    # API client and helpers
+│   ├── lib/
 │   ├── providers/
 │   └── types/
+│
 ├── .env.example
 ├── .gitignore
 ├── next.config.ts
 ├── package.json
 └── tsconfig.json
+```
 
-4. Backend Structure
+Backend Structure
 
-medium-hub-server/
-├── prisma/
-│   ├── schema.prisma
-│   ├── migrations/
-│   └── seed.ts
-├── src/
-│   ├── config/env.ts
-│   ├── lib/prisma.ts
-│   ├── lib/auth.ts                             # If using Better Auth
-│   ├── middlewares/
-│   │   ├── check-auth.ts
-│   │   ├── require-role.ts
-│   │   ├── validate-request.ts
-│   │   ├── not-found.ts
-│   │   └── global-error-handler.ts
-│   ├── error-helpers/app-error.ts
-│   ├── utils/
-│   │   ├── send-response.ts
-│   │   ├── catch-async.ts
-│   │   └── slug.ts
-│   ├── modules/
-│   │   ├── auth/
-│   │   ├── users/
-│   │   ├── blogs/
-│   │   ├── categories/
-│   │   ├── comments/
-│   │   ├── likes/
-│   │   └── bookmarks/
-│   ├── routes/index.ts
-│   ├── app.ts
-│   └── server.ts
-├── .env.example
-├── .gitignore
-├── package.json
-└── tsconfig.json
 
-Each backend module should contain route, controller, service, and
-validation files where needed.
 
 📘 API Endpoints
 
@@ -210,3 +165,58 @@ Blogs
 | PATCH  | `/api/v1/blogs/:id/publish`   | Publish own blog            | User  |
 | PATCH  | `/api/v1/blogs/:id/unpublish` | Unpublish a blog            | User  |
 | PATCH  | `/api/v1/blogs/:id/feature`   | Feature or unfeature a blog | Admin |
+
+
+Categories
+| Method | Endpoint                         | Description           | Auth  |
+| ------ | -------------------------------- | --------------------- | ----- |
+| GET    | `/api/v1/categories`             | Get all categories    | ❌     |
+| GET    | `/api/v1/categories/:slug/blogs` | Get blogs by category | ❌     |
+| POST   | `/api/v1/categories`             | Create a category     | Admin |
+| PATCH  | `/api/v1/categories/:id`         | Update a category     | Admin |
+| DELETE | `/api/v1/categories/:id`         | Delete a category     | Admin |
+
+Comments
+
+| Method | Endpoint                         | Description        | Auth  |
+| ------ | -------------------------------- | ------------------ | ----- |
+| GET    | `/api/v1/blogs/:blogId/comments` | Get blog comments  | ❌     |
+| POST   | `/api/v1/blogs/:blogId/comments` | Add a comment      | User  |
+| PATCH  | `/api/v1/comments/:id`           | Update own comment | User  |
+| DELETE | `/api/v1/comments/:id`           | Delete own comment | User  |
+| GET    | `/api/v1/admin/comments`         | Get all comments   | Admin |
+| DELETE | `/api/v1/admin/comments/:id`     | Delete any comment | Admin |
+
+Likes
+
+| Method | Endpoint                     | Description   | Auth |
+| ------ | ---------------------------- | ------------- | ---- |
+| POST   | `/api/v1/blogs/:blogId/like` | Like a blog   | User |
+| DELETE | `/api/v1/blogs/:blogId/like` | Remove a like | User |
+
+Bookmarks
+| Method | Endpoint                         | Description          | Auth |
+| ------ | -------------------------------- | -------------------- | ---- |
+| GET    | `/api/v1/bookmarks`              | Get user's bookmarks | User |
+| POST   | `/api/v1/blogs/:blogId/bookmark` | Bookmark a blog      | User |
+| DELETE | `/api/v1/blogs/:blogId/bookmark` | Remove a bookmark    | User |
+
+
+Users
+
+| Method | Endpoint                         | Description               | Auth  |
+| ------ | -------------------------------- | ------------------------- | ----- |
+| GET    | `/api/v1/users/:username`        | Get public author profile | ❌     |
+| PATCH  | `/api/v1/users/me`               | Update own profile        | User  |
+| GET    | `/api/v1/admin/users`            | Get all users             | Admin |
+| PATCH  | `/api/v1/admin/users/:id/role`   | Update user role          | Admin |
+| PATCH  | `/api/v1/admin/users/:id/status` | Update user status        | Admin |
+| DELETE | `/api/v1/admin/users/:id`        | Delete a user             | Admin |
+
+Admin Dashboard
+| Method | Endpoint                  | Description                     | Auth  |
+| ------ | ------------------------- | ------------------------------- | ----- |
+| GET    | `/api/v1/admin/stats`     | Get dashboard statistics        | Admin |
+| GET    | `/api/v1/admin/blogs`     | Get all blogs, including drafts | Admin |
+| DELETE | `/api/v1/admin/blogs/:id` | Delete any blog                 | Admin |
+
