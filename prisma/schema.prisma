@@ -27,6 +27,8 @@ enum BlogStatus {
   DRAFT
   PUBLISHED
   ARCHIVED
+  REJECTED
+  BANNED
 }
 
 enum ReactionType {
