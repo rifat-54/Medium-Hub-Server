@@ -12,7 +12,7 @@ const registerUser = catchAsync(
 
     tokenUtils.setAccessTokenInCookie(res, access_token)
     tokenUtils.setRefreshTokenInCookie(res, refresh_token)
-    tokenUtils.setBetterAuthSessionCookie(res, token!)
+    tokenUtils.setBetterAuthSessionInCookie(res, token!)
 
     sendResponse(res, {
       httpStatusCode: 201,
@@ -37,7 +37,7 @@ const loginUser = catchAsync(
 
     tokenUtils.setAccessTokenInCookie(res, access_token)
     tokenUtils.setRefreshTokenInCookie(res, refresh_token)
-    tokenUtils.setBetterAuthSessionCookie(res, token)
+    tokenUtils.setBetterAuthSessionInCookie(res, token)
 
     console.log("login result: ", result)
 

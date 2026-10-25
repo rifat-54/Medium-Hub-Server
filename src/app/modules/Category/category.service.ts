@@ -75,22 +75,9 @@ const updateCategory = async (id: string, payload: ICreateCategoryPayload) => {
     }
 
     // check if category is exit
-    const existCategory = await prisma.category.findFirst({
+    const existCategory = await prisma.category.findUnique({
         where: {
-            OR: [
-                {
-                    name: {
-                        equals: trimmedName,
-                        mode: "insensitive"
-                    }
-                },
-                {
-                    slug: {
-                        equals: slug,
-                        mode: "insensitive"
-                    }
-                }
-            ]
+            id
         }
     })
 
