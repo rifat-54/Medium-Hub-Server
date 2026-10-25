@@ -8,6 +8,10 @@ interface EnvConfig {
     REFRESH_TOKEN_SECRET: string;
     ACCESS_TOKEN_EXPIRE_IN: string;
     REFRESH_TOKEN_EXPIRE_IN: string;
+    ADMIN: {
+        email: string;
+        pass: string;
+    };
 }
 
 const loadEnvVariables = (): EnvConfig => {
@@ -18,7 +22,9 @@ const loadEnvVariables = (): EnvConfig => {
         'ACCESS_TOKEN_SECRET',
         'REFRESH_TOKEN_SECRET',
         'ACCESS_TOKEN_EXPIRE_IN',
-        'REFRESH_TOKEN_EXPIRE_IN'
+        'REFRESH_TOKEN_EXPIRE_IN',
+        'ADMIN_EMAIL',
+        'ADMIN_PASS'
     ];
 
     requiredEnvVariables.forEach((variable) => {
@@ -34,7 +40,11 @@ const loadEnvVariables = (): EnvConfig => {
         ACCESS_TOKEN_SECRET: process.env.ACCESS_TOKEN_SECRET!,
         REFRESH_TOKEN_SECRET: process.env.REFRESH_TOKEN_SECRET!,
         ACCESS_TOKEN_EXPIRE_IN: process.env.ACCESS_TOKEN_EXPIRE_IN!,
-        REFRESH_TOKEN_EXPIRE_IN: process.env.REFRESH_TOKEN_EXPIRE_IN!
+        REFRESH_TOKEN_EXPIRE_IN: process.env.REFRESH_TOKEN_EXPIRE_IN!,
+        ADMIN: {
+            email: process.env.ADMIN_EMAIL!,
+            pass: process.env.ADMIN_PASS!
+        }
     };
 }
 

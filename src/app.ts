@@ -8,6 +8,7 @@ import { IndexRoutes } from "./app/routes"
 import { auth } from "./app/lib/auth"
 import { toNodeHandler } from "better-auth/node"
 import { globalErrorHandler } from "./app/middleware/globalErrorHandler"
+import { seedAdmin } from "./app/utils/seedAdmin"
 
 const app = express()
 
@@ -29,6 +30,7 @@ app.use("/api/v1/", IndexRoutes) // Use the index routes for API version 1
 app.get("/", (req: Request, res: Response) => {
     res.send("Server is running")
 })
+// seedAdmin()
 
 app.use(notFound) // Handle 404 errors for undefined routes
 app.use(globalErrorHandler)
