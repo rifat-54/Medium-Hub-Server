@@ -42,7 +42,7 @@ const setRefreshTokenInCookie = (res: Response, token: string) => {
     })
 }
 
-const setBetterAuthSessionCookie = (res: Response, token: string) => {
+const setBetterAuthSessionInCookie = (res: Response, token: string) => {
     res.cookie("better_auth.session_token", token, {
         httpOnly: true,
         secure: true,
@@ -57,7 +57,7 @@ export const tokenUtils = {
     createRefreshToken,
     setAccessTokenInCookie,
     setRefreshTokenInCookie,
-    setBetterAuthSessionCookie,
+    setBetterAuthSessionInCookie,
 }
 
 
