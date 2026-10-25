@@ -9,7 +9,7 @@
 | **Frontend**       | Next.js App Router, TypeScript, Tailwind CSS |
 | **Backend**        | Node.js, Express.js, TypeScript              |
 | **Database**       | PostgreSQL with Prisma ORM                   |
-| **Authentication** | Better Auth or JWT (choose one approach)     |
+| **Authentication** | Better Auth and JWT      |
 | **Validation**     | Zod                                          |
 | **Deployment**     | Vercel (frontend), Render/Railway (backend)  |
 
