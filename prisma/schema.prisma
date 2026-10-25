@@ -12,13 +12,44 @@ datasource db {
   provider = "postgresql"
 }
 
+
+enum UserRole {
+  USER
+  ADMIN
+}
+
+enum UserStatus {
+  ACTIVE
+  SUSPENDED
+}
+
+enum BlogStatus {
+  DRAFT
+  PUBLISHED
+  ARCHIVED
+}
+
+enum ReactionType {
+  LIKE
+  DISLIKE 
+}
+
+
 model User {
   id            String    @id
   name          String
   email         String
   emailVerified Boolean   @default(false)
   image         String?
-  role          String    @default("USER")
+  role          UserRole    @default(USER)
+  bio           String?
+  status        UserStatus @default(ACTIVE)
+  isDeleted     Boolean   @default(false)
+
+  blogs         Blog[]
+  comments      Comment[]
+  reactions     Reaction[]
+  bookmarks     Bookmark[]
 
   createdAt     DateTime  @default(now())
   updatedAt     DateTime  @updatedAt
@@ -75,4 +106,110 @@ model Verification {
 
   @@index([identifier])
   @@map("verification")
+}
+
+
+model Category {
+  id          String   @id @default(cuid())
+  name        String   @unique
+  slug        String   @unique
+  description String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  blogs       Blog[]
+
+  @@map("category")
+}
+
+
+
+model Blog {
+  id          String     @id @default(cuid())
+  title       String
+  slug        String     @unique
+  excerpt     String
+  content     String     @db.Text
+  coverImage  String?
+  status      BlogStatus @default(DRAFT)
+  isFeatured  Boolean    @default(false)
+  publishedAt DateTime?
+
+  authorId    String
+  author      User       @relation(fields: [authorId], references: [id], onDelete: Cascade)
+
+  categoryId  String?
+  category    Category?  @relation(fields: [categoryId], references: [id], onDelete: SetNull)
+
+  comments    Comment[]
+  reactions   Reaction[]
+  bookmarks   Bookmark[]
+
+  createdAt   DateTime   @default(now())
+  updatedAt   DateTime   @updatedAt
+
+  @@index([authorId])
+  @@index([categoryId])
+  @@index([status, publishedAt])
+  @@index([createdAt])
+  @@map("blog")
+}
+
+model Comment {
+  id        String   @id @default(cuid())
+  content   String   @db.Text
+
+  authorId  String
+  author    User     @relation(fields: [authorId], references: [id], onDelete: Cascade)
+
+  blogId    String
+  blog      Blog     @relation(fields: [blogId], references: [id], onDelete: Cascade)
+
+  parentId  String?
+  parent    Comment? @relation("CommentReplies", fields: [parentId], references: [id], onDelete: Cascade)
+  replies   Comment[] @relation("CommentReplies")
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([blogId, createdAt])
+  @@index([authorId])
+  @@index([parentId])
+  @@map("comment")
+}
+
+
+model Reaction {
+  id        String       @id @default(cuid())
+  userId    String
+  user      User         @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  blogId    String
+  blog      Blog         @relation(fields: [blogId], references: [id], onDelete: Cascade)
+
+  type      ReactionType @default(LIKE)
+
+  createdAt DateTime     @default(now())
+  updatedAt DateTime     @updatedAt
+
+  @@unique([userId, blogId])
+  @@index([blogId])
+  @@map("reaction")
+}
+
+
+model Bookmark {
+  id        String   @id @default(cuid())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  blogId    String
+  blog      Blog     @relation(fields: [blogId], references: [id], onDelete: Cascade)
+
+  createdAt DateTime @default(now())
+
+  @@unique([userId, blogId])
+  @@index([blogId])
+  @@index([userId, createdAt])
+  @@map("bookmark")
 }

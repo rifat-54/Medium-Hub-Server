@@ -1,6 +1,7 @@
 import "dotenv/config";
 
 interface EnvConfig {
+    NODE_ENV: 'development' | 'production';
     FRONTEND_URL: string;
     BETTER_AUTH_URL: string;
     ACCESS_TOKEN_SECRET: string;
@@ -11,6 +12,7 @@ interface EnvConfig {
 
 const loadEnvVariables = (): EnvConfig => {
     const requiredEnvVariables = [
+        'NODE_ENV',
         'FRONTEND_URL',
         'BETTER_AUTH_URL',
         'ACCESS_TOKEN_SECRET',
@@ -26,6 +28,7 @@ const loadEnvVariables = (): EnvConfig => {
     });
 
     return {
+        NODE_ENV: process.env.NODE_ENV! as 'development' | 'production',
         FRONTEND_URL: process.env.FRONTEND_URL!,
         BETTER_AUTH_URL: process.env.BETTER_AUTH_URL!,
         ACCESS_TOKEN_SECRET: process.env.ACCESS_TOKEN_SECRET!,

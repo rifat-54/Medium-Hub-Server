@@ -5,8 +5,9 @@ import { auth } from "../lib/auth";
 import { prisma } from "../lib/prisma";
 import { jwtUtils } from "../utils/jwt";
 import { envVariables } from "../config/env";
+import type { UserRole } from "../../../generated/prisma/enums";
 
-export const checkAuth = (...authRole: string[]) => {
+export const checkAuth = (...authRole: UserRole[]) => {
 
     return async (req: Request, res: Response, next: NextFunction) => {
         try {

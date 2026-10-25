@@ -46,17 +46,17 @@ and responsive UI/UX.
 
 ## Technology Stack
 
-  Area             Technologies
-  ---------------- ------------------------------------------------
-  Frontend         Next.js App Router, TypeScript, Tailwind CSS
-  UI Components    shadcn/ui (planned/optional)
-  Backend          Node.js, Express.js, TypeScript
-  Database         PostgreSQL
-  ORM              Prisma
-  Validation       Zod
-  Authentication   Better Auth or JWT (choose one approach)
-  Deployment       Vercel (frontend), Render or Railway (backend)
-
+ 
+| Item               | Details                                      |
+| ------------------ | -------------------------------------------- |
+| **Project Name**   | Medium Hub                                   |
+| **Type**           | Medium-inspired blogging platform            |
+| **Frontend**       | Next.js App Router, TypeScript, Tailwind CSS |
+| **Backend**        | Node.js, Express.js, TypeScript              |
+| **Database**       | PostgreSQL with Prisma ORM                   |
+| **Authentication** | Better Auth and JWT      |
+| **Validation**     | Zod                                          |
+| **Deployment**     | Vercel (frontend), Render/Railway (backend)  |
 ## Project Structure
 
 The frontend and backend are maintained as separate
