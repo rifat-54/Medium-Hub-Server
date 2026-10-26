@@ -154,7 +154,8 @@ const getAllBlog = async () => {
                     name: true,
                     email: true
                 }
-            }
+            },
+            reactions: true
         }
     })
     return data
@@ -191,7 +192,8 @@ const getBlogById = async (id: string) => {
                     name: true,
                     email: true
                 }
-            }
+            },
+            reactions: true
         }
     })
     return blog

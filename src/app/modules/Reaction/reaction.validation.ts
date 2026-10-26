@@ -1,6 +1,13 @@
-import { MAX_UPLOAD_SIZE } from '../../constants';
-// import { z } from 'zod';
+import z from "zod"
+import { ReactionType } from "../../../../generated/prisma/enums";
 
-export const reactionValidationSchema = {
-    // Add validation schemas here
-    };
+const reactionZodSchema = z.object({
+    blogId: z.string().min(1, "Blog ID is required"),
+    type: z.enum(ReactionType),
+})
+
+const reactionValidation = {
+    reactionZodSchema,
+};
+
+export default reactionValidation;

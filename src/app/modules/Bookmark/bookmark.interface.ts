@@ -1,3 +1,5 @@
-export type TBookmark = {
-    // Add interface properties here
-    };
+
+export interface ICreateBookmarkPayload {
+    blogId: string;
+}
+
