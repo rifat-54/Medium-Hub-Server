@@ -17,6 +17,8 @@ const seedAdmin = async () => {
             return;
         }
 
+        console.log("Starting to seed admin...")
+
         const adminUser = await auth.api.signUpEmail({
             body: {
                 email: envVariables.ADMIN.email,
